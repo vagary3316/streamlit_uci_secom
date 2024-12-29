@@ -112,7 +112,7 @@ dfs = {
     'y_train': y_train,
     'y_test': y_test
 }
-for name,df in dfs:
+for name, df in dfs:
     shapes_df = pd.DataFrame([(name, df.shape) for name, df in dfs.items()], columns=['DataFrame', 'Shape'])
 
 st.text("""
