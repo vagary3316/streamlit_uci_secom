@@ -24,7 +24,8 @@ Kaggle - UCI-SECOM Dataset
 
 st.subheader(":bulb: Data Description:")
 st.text("""
-1567  semi-conductor manufacturing data examples with 591 features
+1567  semi-conductor manufacturing data examples with 591 features.
+The first column is timestamp; last column is the target column with values either -1 or 1.
 And total 41951 NA in the dataset.
 """)
 
@@ -38,7 +39,7 @@ Replace with 0
 The values are not presented, may mean that there is no signal detected for the sensor.
 """)
 
-secom.replace(np.nan, 0)
+secom = secom.replace(np.nan, 0)
 
 ## Present the original Pass rate of the secom dataset
 st.subheader(":bulb: Pie Chart of the Pass/Fails ")
@@ -58,8 +59,24 @@ st.subheader(":bulb: Correlation Heatmap for the features")
 st.text("""
 As there are a few features in the dataset, we should investigate collinearity using heatmap of correlation.
 And the heatmap reminds that there are some columns that only contains zero in their values.
-(We replace Na with zero before.)
+(We replaced Na with zero before.)
+After removing the columns that are all zeros, there are 480 columns left.(Timestamp and Pass/Fail included)
 """)
 heatmap_corr=px.imshow(secom.iloc[:, 1:].corr())
 st.plotly_chart(heatmap_corr, use_container_width=True)
 secom_cleaned = secom.loc[:, (secom != 0).any(axis=0)]
+print(secom_cleaned.shape)
+
+## Drop Columns that have 70%+ correlation
+st.subheader(":bulb: Drop Columns that have more than 70% correlation.")
+st.text("""
+After removing the columns that are all zeros, columns with high correlation will be removed.
+Only 196 columns left.)
+""")
+
+corr_matrix = secom_cleaned.iloc[:,1:].corr().abs()
+upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+# Find columns with correlation greater than 0.7
+to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > 0.7)]
+secom_dropped = secom_cleaned.drop(columns=to_drop)
+print(secom_dropped.shape)
