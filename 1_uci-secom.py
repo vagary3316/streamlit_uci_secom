@@ -47,7 +47,8 @@ st.text("""
 There are 1,463 Pass, 104 Fails.
 93.4% Pass
 """)
-yield_df = secom['Pass/Fail'].value_counts().reindex(['Pass','Fail'])
+yield_df = pd.DataFrame(secom['Pass/Fail'].value_counts())
+yield_df.rename(index={-1: 'Pass', 1: 'Fail'}, inplace=True)
 pie_for_yield = px.pie(yield_df, values='count',
                        color_discrete_map='Pastel',
                        labels = yield_df.index
