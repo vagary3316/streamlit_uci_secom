@@ -71,7 +71,7 @@ print(secom_cleaned.shape)
 st.subheader(":bulb: Drop Columns that have more than 70% correlation.")
 st.text("""
 After removing the columns that are all zeros, columns with high correlation will be removed.
-Only 196 columns left.)
+(Only 196 columns left.)
 """)
 
 corr_matrix = secom_cleaned.iloc[:,1:].corr().abs()
@@ -80,3 +80,9 @@ upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).asty
 to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > 0.7)]
 secom_dropped = secom_cleaned.drop(columns=to_drop)
 print(secom_dropped.shape)
+
+## Present the cleaning dataset in the page using streamlit.df
+st.text("""
+data after dropping columns
+""")
+st.dataframe(secom_dropped)
