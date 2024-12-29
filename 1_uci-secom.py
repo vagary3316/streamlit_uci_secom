@@ -55,5 +55,11 @@ st.plotly_chart(pie_for_yield, use_container_width=True)
 
 ## Correlation Heatmap
 st.subheader(":bulb: Correlation Heatmap for the features")
+st.text("""
+As there are a few features in the dataset, we should investigate collinearity using heatmap of correlation.
+And the heatmap reminds that there are some columns that only contains zero in their values.
+(We replace Na with zero before.)
+""")
 heatmap_corr=px.imshow(secom.iloc[:, 1:].corr())
 st.plotly_chart(heatmap_corr, use_container_width=True)
+secom_cleaned = secom.loc[:, (secom != 0).any(axis=0)]
