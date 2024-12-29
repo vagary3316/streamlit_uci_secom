@@ -36,7 +36,7 @@ st.dataframe(secom)
 st.subheader(":bulb: Deal with NA:")
 st.text("""
 Replace with 0
-The values are not present, may mean that there is no signal detected for the sensor.
+The values are not presented, may mean that there is no signal detected for the sensor.
 """)
 
 secom.replace(np.nan, 0)
@@ -47,7 +47,7 @@ st.text("""
 There are 1,463 Pass, 104 Fails.
 93.4% Pass
 """)
-yield_df = secom['Pass/Fail'].value_counts()
+yield_df = secom['Pass/Fail'].value_counts().reindex(['Pass','Fail'])
 pie_for_yield = px.pie(yield_df, values='count',
                        color_discrete_map='Pastel',
                        labels = yield_df.index
