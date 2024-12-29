@@ -20,6 +20,9 @@ st.header('Data Analysis for the dataset - UCI-SECOM form Kaggle.')
 st.text("""
 Kaggle - UCI-SECOM Dataset
 (https://www.kaggle.com/datasets/paresh2047/uci-semcom/data)
+
+This page shows the data processing and each analysis steps.
+The end goal is to predict the yield rate.
 """)
 
 st.subheader(":bulb: Data Description:")
@@ -79,10 +82,13 @@ upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).asty
 # Find columns with correlation greater than 0.7
 to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > 0.7)]
 secom_dropped = secom_cleaned.drop(columns=to_drop)
-print(secom_dropped.shape)
 
 ## Present the cleaning dataset in the page using streamlit.df
 st.text("""
-data after dropping columns
+And as the timestamp is not relevant to our data analysis(predict the yield)
+The first column is finally removed in this step also.
+Below is the data after dropping columns:
 """)
+secom_dropped = secom_dropped.iloc[:,1:]
+print(secom_dropped.shape)
 st.dataframe(secom_dropped)
