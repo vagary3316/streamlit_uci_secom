@@ -23,9 +23,20 @@ Kaggle - UCI-SECOM Dataset
 """)
 
 st.text("""
-:bulb:Data Description:
+:bulb: Data Description:
 1567  semi-conductor manufacturing data examples with 591 features
 The last columns ['Pass/Fail'] is the target column: -1 means Pass; 1 means Fail
+And total 41951 NA in the dataset.
 """)
 
+# Present the whole dataset in the page using streamlit.df
 st.dataframe(secom)
+
+# Explain NAs, and will replace NA with 0
+st.text("""
+:bulb: Deal with NA:
+Replace with 0
+The values are not present, may mean that there is no signal detected for the sensor.
+""")
+
+secom.replace(np.NaN, 0)
