@@ -17,13 +17,13 @@ st.set_page_config(layout="wide",
 
 #Streamlit Header and Subheader
 st.header('Data Analysis for the dataset - UCI-SECOM form Kaggle.')
-st.markdown("""
-Kaggle - UCI-SECOM Dataset
-(https://www.kaggle.com/datasets/paresh2047/uci-semcom/code?datasetId=28901&sortBy=commentCount)
+st.text("""
+Kaggle - UCI-SECOM Dataset\n
+(https://www.kaggle.com/datasets/paresh2047/uci-semcom/data)
 """)
 
 st.subheader(":bulb: Data Description:")
-st.markdown("""
+st.text("""
 1567  semi-conductor manufacturing data examples with 591 features
 The last columns ['Pass/Fail'] is the target column: -1 means Pass; 1 means Fail
 And total 41951 NA in the dataset.
@@ -34,7 +34,7 @@ st.dataframe(secom)
 
 ## Explain NAs, and will replace NA with 0
 st.subheader(":bulb: Deal with NA:")
-st.markdown("""
+st.text("""
 Replace with 0
 The values are not present, may mean that there is no signal detected for the sensor.
 """)
@@ -43,7 +43,7 @@ secom.replace(np.nan, 0)
 
 ## Present the original Pass rate of the secom dataset
 st.subheader(":bulb: Pie Chart of the Pass/Fails ")
-st.markdown("""
+st.text("""
 There are 1,463 Pass, 104 Fails.
 93.4% Pass
 """)
