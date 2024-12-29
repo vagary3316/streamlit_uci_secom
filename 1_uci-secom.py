@@ -9,6 +9,7 @@ from streamlit_gsheets import GSheetsConnection
 conn = st.connection("gsheets", type=GSheetsConnection)
 df = conn.read()
 
+
 ## streamlit_setting
 st.set_page_config(layout="wide",
                    page_title="UCI-SECOM Dataset from Kaggle",
@@ -21,3 +22,7 @@ Hi, this is my data visualization project.\n
 The data comes from Kaggle - UCI-SECOM Dataset
 (https://www.kaggle.com/datasets/paresh2047/uci-semcom/code?datasetId=28901&sortBy=commentCount)
 """)
+
+
+#test
+st.text(df.shape)
