@@ -5,3 +5,4 @@ plotly
 numpy
 streamlit
 st-gsheets-connection
+scikit-learn

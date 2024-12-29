@@ -3,6 +3,7 @@ import numpy as np
 import plotly.express as px
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
+from sklearn.model_selection import train_test_split
 
 
 ## connect data from google sheet
@@ -86,9 +87,35 @@ secom_dropped = secom_cleaned.drop(columns=to_drop)
 ## Present the cleaning dataset in the page using streamlit.df
 st.text("""
 And as the timestamp is not relevant to our data analysis(predict the yield)
-The first column is finally removed in this step also.
+The first column is finally removed in this step.
 Below is the data after dropping columns:
 """)
 secom_dropped = secom_dropped.iloc[:,1:]
 print(secom_dropped.shape)
 st.dataframe(secom_dropped)
+
+## Split to Train and Test data
+st.subheader(":bulb: Split Data into Train Dataset and Test Dataset")
+st.text("""
+80% to train; 20% to test.
+(1253 rows in train and 314 rows to test)
+The data has also been divided into X and Y. Y refer to the target column(Pass/Fail)
+""")
+
+df_x = secom_dropped.iloc[:,:194]
+df_y = secom_dropped['Pass/Fail']
+x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, test_size=0.2, random_state=42)
+#To present to shape
+dfs = {
+    'x_train': x_train,
+    'x_test': x_test,
+    'y_train': y_train,
+    'y_test': y_test
+}
+for name,df in dfs:
+    shapes_df = pd.DataFrame([(name, df.shape) for name, df in dfs.items()], columns=['DataFrame', 'Shape'])
+
+st.text("""
+Shapes of the Dataframes:
+""")
+st.table(shapes_df)
