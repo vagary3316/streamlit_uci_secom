@@ -49,11 +49,14 @@ There are 1,463 Pass, 104 Fails.
 """)
 yield_df = pd.DataFrame(secom['Pass/Fail'].value_counts())
 yield_df.rename(index={-1: 'Pass', 1: 'Fail'}, inplace=True)
-pie_for_yield = px.pie(yield_df, values='count',
-                       color_discrete_map='Pastel',
-                       labels = yield_df.index
-)
+yield_df = yield_df.reset_index().rename(columns={'index': 'Pass/Fail', 'Pass/Fail': 'count'})
+
+pie_for_yield = px.pie(yield_df, values='count', names='Pass/Fail', title='Pass/Fail Distribution',
+                       color='Pass/Fail', color_discrete_map='Pastel')
+
 pie_for_yield.update_traces(textposition='inside', textinfo='percent+label')
+pie_for_yield.update_layout(showlegend=True)  # Enable the legend
 
 st.plotly_chart(pie_for_yield, use_container_width=True)
+
 
