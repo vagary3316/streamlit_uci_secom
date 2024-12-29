@@ -18,7 +18,7 @@ st.set_page_config(layout="wide",
 #Streamlit Header and Subheader
 st.header('Data Analysis for the dataset - UCI-SECOM form Kaggle.')
 st.text("""
-Kaggle - UCI-SECOM Dataset\n
+Kaggle - UCI-SECOM Dataset
 (https://www.kaggle.com/datasets/paresh2047/uci-semcom/data)
 """)
 
@@ -48,7 +48,10 @@ There are 1,463 Pass, 104 Fails.
 93.4% Pass
 """)
 yield_df = secom['Pass/Fail'].value_counts()
-pie_for_yield = px.pie(yield_df, values='count', title='Pass/Fail Distribution', color_discrete_map='Pastel')
+pie_for_yield = px.pie(yield_df, values='count',
+                       color_discrete_map='Pastel',
+                       labels = yield_df.index
+)
 pie_for_yield.update_traces(textposition='inside', textinfo='percent+label')
 
 st.plotly_chart(pie_for_yield, use_container_width=True)
