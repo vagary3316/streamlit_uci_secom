@@ -33,8 +33,8 @@ And total 41951 NA in the dataset.
 st.dataframe(secom)
 
 ## Explain NAs, and will replace NA with 0
+st.subheader(":bulb: Deal with NA:")
 st.markdown("""
-:bulb: Deal with NA:
 Replace with 0
 The values are not present, may mean that there is no signal detected for the sensor.
 """)
@@ -42,11 +42,11 @@ The values are not present, may mean that there is no signal detected for the se
 secom.replace(np.nan, 0)
 
 ## Present the original Pass rate of the secom dataset
+st.subheader(":bulb: Pie Chart of the Pass/Fails ")
 st.markdown("""
-:bulb: Pie Chart of the Pass/Fails 
-
+There are 1,463 Pass, 104 Fails.
+93.4% Pass
 """)
-
 yield_df = secom['Pass/Fail'].value_counts()
 pie_for_yield = px.pie(yield_df, values='count', title='Pass/Fail Distribution', color_discrete_map='Pastel')
 pie_for_yield.update_traces(textposition='inside', textinfo='percent+label')
