@@ -18,11 +18,9 @@ st.set_page_config(layout="wide",
 #streamlit title
 st.header('Data Analysis for the dataset - UCI-SECOM form Kaggle.')
 st.text("""
-Hi, this is my data visualization project.\n
-The data comes from Kaggle - UCI-SECOM Dataset
+Kaggle - UCI-SECOM Dataset
 (https://www.kaggle.com/datasets/paresh2047/uci-semcom/code?datasetId=28901&sortBy=commentCount)
+Data Description:
+1567  semi-conductor manufacturing data examples with 591 features
+The last columns ['Pass/Fail'] is the target column: -1 means Pass; 1 means Fail
 """)
-
-
-#test
-st.text(df.shape)
