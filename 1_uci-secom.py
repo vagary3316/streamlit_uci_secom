@@ -251,8 +251,8 @@ Accuracy of the Logistics Regression: {accuracy_LR}%
 st.plotly_chart(con_LR, key=3)
 
 # End
-st.subheader(":Yawning Face: This is the end of the page.")
-st.text(""""Thank you for reading.
+st.subheader(" :yawning_face: This is the end of the page.")
+st.text("""Thank you for reading.
 Please let me know if any advise.
 📧vagary3316@gmail.com
 """)
