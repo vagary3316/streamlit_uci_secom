@@ -252,7 +252,7 @@ st.plotly_chart(con_LR, key=3)
 
 # End
 st.subheader("""
-:Yawning Face: This is the end of the page.
+ :Yawning Face: This is the end of the page.
 Thank you for reading.
 Please let me know if any advise.
 📧vagary3316@gmail.com
