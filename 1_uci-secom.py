@@ -11,14 +11,16 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 import plotly.figure_factory as ff
 
-## connect data from google sheet
-conn = st.connection("gsheets", type=GSheetsConnection)
-secom = conn.read()
-
 ## streamlit_setting
 st.set_page_config(layout="wide",
                    page_title="UCI SECOM Dataset from Kaggle",
                    page_icon=":Chart:")
+
+## connect data from google sheet
+conn = st.connection("gsheets", type=GSheetsConnection)
+secom = conn.read()
+
+
 
 #Streamlit Header and Subheader
 st.header('Data Analysis for the dataset - UCI-SECOM form Kaggle.')
@@ -255,3 +257,5 @@ Thank you for reading.
 Please let me know if any advise.
 📧vagary3316@gmail.com
 """)
+
+print("end")
