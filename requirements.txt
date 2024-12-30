@@ -6,3 +6,4 @@ numpy
 streamlit
 st-gsheets-connection
 scikit-learn
+xgboost

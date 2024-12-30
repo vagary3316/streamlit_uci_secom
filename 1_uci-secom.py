@@ -4,12 +4,16 @@ import plotly.express as px
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 from sklearn.model_selection import train_test_split
-
+from sklearn.preprocessing import StandardScaler
+from xgboost.sklearn import XGBClassifier
+from sklearn.metrics import confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+import plotly.figure_factory as ff
 
 ## connect data from google sheet
 conn = st.connection("gsheets", type=GSheetsConnection)
 secom = conn.read()
-
 
 ## streamlit_setting
 st.set_page_config(layout="wide",
@@ -66,7 +70,7 @@ And the heatmap reminds that there are some columns that only contains zero in t
 (We replaced Na with zero before.)
 After removing the columns that are all zeros, there are 480 columns left.(Timestamp and Pass/Fail included)
 """)
-heatmap_corr=px.imshow(secom.iloc[:, 1:].corr())
+heatmap_corr = px.imshow(secom.iloc[:, 1:].corr())
 st.plotly_chart(heatmap_corr, use_container_width=True)
 secom_cleaned = secom.loc[:, (secom != 0).any(axis=0)]
 print(secom_cleaned.shape)
@@ -78,7 +82,7 @@ After removing the columns that are all zeros, columns with high correlation wil
 (Only 196 columns left.)
 """)
 
-corr_matrix = secom_cleaned.iloc[:,1:].corr().abs()
+corr_matrix = secom_cleaned.iloc[:, 1:].corr().abs()
 upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
 # Find columns with correlation greater than 0.7
 to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > 0.7)]
@@ -90,7 +94,7 @@ And as the timestamp is not relevant to our data analysis(predict the yield)
 The first column is finally removed in this step.
 Below is the data after dropping columns:
 """)
-secom_dropped = secom_dropped.iloc[:,1:]
+secom_dropped = secom_dropped.iloc[:, 1:]
 print(secom_dropped.shape)
 st.dataframe(secom_dropped)
 
@@ -102,7 +106,7 @@ st.text("""
 The data has also been divided into X and Y. Y refer to the target column(Pass/Fail)
 """)
 
-df_x = secom_dropped.iloc[:,:194]
+df_x = secom_dropped.iloc[:, :194]
 df_y = secom_dropped['Pass/Fail']
 x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, test_size=0.2, random_state=42)
 #To present to shape
@@ -119,3 +123,44 @@ st.text("""
 Shapes of the Dataframes:
 """)
 st.table(shapes_df)
+
+## XGBoost
+st.subheader(":bulb: XGBoosts")
+st.text("""
+Data standardization has been made before training model.
+""")
+
+# Standardized
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
+
+# Converting -1 to 0 in y_train and y_test
+y_train = y_train.replace(-1, 0)
+y_test = y_test.replace(-1, 0)
+
+#  XGBoost
+model = XGBClassifier(random_state=1)
+model.fit(x_train, y_train)
+y_pred = model.predict(x_test)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+# Convert to a DataFrame for easier plotting
+cm_df = pd.DataFrame(cm, index=['Actual: Pass', 'Actual: Fail'],
+                     columns=['Predicted: Pass', 'Predicted: Fail'])
+
+# Create the confusion matrix heatmap
+con_XGBoost = ff.create_annotated_heatmap(
+    z=cm_df.values,
+    x=cm_df.columns.tolist(),
+    y=cm_df.index.tolist(),
+)
+
+# Update layout for better readability
+con_XGBoost.update_layout(
+    title='Confusion Matrix',
+    xaxis_title='Predicted Labels',
+    yaxis_title='Actual Labels'
+)
+st.plotly_chart(con_XGBoost,use_container_width=True)
