@@ -213,7 +213,7 @@ st.plotly_chart(con_RF, key=2)
 
 
 # Logistics Regression
-st.subheader(":bulb: RandomForest")
+st.subheader(":bulb: Logistics Regression")
 st.text("""
 Data standardization has been made before training model.
 """)
@@ -246,7 +246,7 @@ con_LR.update_layout(
 accuracy_LR = round(LR.score(x_test, y_test) * 100, 2)
 
 st.text(f"""
-Accuracy of the Random Forest Model: {accuracy_LR}%
+Accuracy of the Logistics Regression: {accuracy_LR}%
 """)
 st.plotly_chart(con_LR, key=3)
 
