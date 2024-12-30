@@ -142,19 +142,19 @@ y_test = y_test.replace(-1, 0)
 #  XGBoost
 modelXG = XGBClassifier(random_state=1)
 modelXG.fit(x_train, y_train)
-y_pred = modelXG.predict(x_test)
+y_predXG = modelXG.predict(x_test)
 
 # Confusion Matrix
-cm = confusion_matrix(y_test, y_pred)
+cmXG = confusion_matrix(y_test, y_predXG)
 # Convert to a DataFrame for easier plotting
-cm_df = pd.DataFrame(cm, index=['Actual: Pass', 'Actual: Fail'],
-                     columns=['Predicted: Pass', 'Predicted: Fail'])
+cmdf_XG = pd.DataFrame(cmXG, index=['Actual: Pass', 'Actual: Fail'],
+                       columns=['Predicted: Pass', 'Predicted: Fail'])
 
 # Create the confusion matrix heatmap
 con_XGBoost = ff.create_annotated_heatmap(
-    z=cm_df.values,
-    x=cm_df.columns.tolist(),
-    y=cm_df.index.tolist(),
+    z=cmdf_XG.values,
+    x=cmdf_XG.columns.tolist(),
+    y=cmdf_XG.index.tolist(),
 )
 
 # Update layout for better readability
@@ -163,11 +163,48 @@ con_XGBoost.update_layout(
     xaxis_title='Predicted Labels',
     yaxis_title='Actual Labels'
 )
-#accuracy 92%
-accuracy_xgboost = round(modelXG.score(x_test,y_test)*100,2)
+# accuracy 92%
+accuracy_xgboost = round(modelXG.score(x_test, y_test) * 100, 2)
 st.text(f"""
 Accuracy of the XGBoost Model: {accuracy_xgboost}%
 """)
-st.plotly_chart(con_XGBoost,use_container_width=True)
+st.plotly_chart(con_XGBoost, use_container_width=True)
 
 
+# RandomForest
+st.subheader(":bulb: RandomForest")
+st.text("""
+Data standardization has been made before training model.
+""")
+# train model - Random Forest
+modelRF = RandomForestClassifier(random_state=1)
+modelRF.fit(x_train, y_train)
+y_predRF = modelRF.predict(x_test)
+
+# Confusion Matrix
+cmRF = confusion_matrix(y_test, y_predRF)
+# Convert to a DataFrame for easier plotting
+cmdf_RF = pd.DataFrame(cmXG, index=['Actual: Pass', 'Actual: Fail'],
+                       columns=['Predicted: Pass', 'Predicted: Fail'])
+
+# Create the confusion matrix heatmap
+con_RF = ff.create_annotated_heatmap(
+    z=cmdf_RF.values,
+    x=cmdf_RF.columns.tolist(),
+    y=cmdf_RF.index.tolist(),
+)
+
+# Update layout for better readability
+con_RF.update_layout(
+    title='Confusion Matrix',
+    xaxis_title='Predicted Labels',
+    yaxis_title='Actual Labels'
+)
+# accuracy 92%
+accuracy_RF = round(modelRF.score(x_test, y_test) * 100, 2)
+
+st.text(f"""
+Accuracy of the Random Forest Model: {accuracy_RF}%
+""")
+st.plotly_chart(con_RF, use_container_width=True)
+con_RF.show()
