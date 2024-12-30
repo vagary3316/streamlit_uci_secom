@@ -184,7 +184,7 @@ y_predRF = modelRF.predict(x_test)
 # Confusion Matrix
 cmRF = confusion_matrix(y_test, y_predRF)
 # Convert to a DataFrame for easier plotting
-cmdf_RF = pd.DataFrame(cmXG, index=['Actual: Pass', 'Actual: Fail'],
+cmdf_RF = pd.DataFrame(cmRF, index=['Actual: Pass', 'Actual: Fail'],
                        columns=['Predicted: Pass', 'Predicted: Fail'])
 
 # Create the confusion matrix heatmap
@@ -206,5 +206,43 @@ accuracy_RF = round(modelRF.score(x_test, y_test) * 100, 2)
 st.text(f"""
 Accuracy of the Random Forest Model: {accuracy_RF}%
 """)
-st.plotly_chart(con_RF, use_container_width=True)
-con_RF.show()
+st.plotly_chart(con_RF)
+
+
+# Logistics Regression
+st.subheader(":bulb: RandomForest")
+st.text("""
+Data standardization has been made before training model.
+""")
+
+# LogisticsRegression
+LR = LogisticRegression(random_state=1)
+LR.fit(x_train, y_train)
+y_predLR = LR.predict(x_test)
+
+# Confusion Matrix
+cmLR = confusion_matrix(y_test, y_predLR)
+# Convert to a DataFrame for easier plotting
+cmdf_LR = pd.DataFrame(cmLR, index=['Actual: Pass', 'Actual: Fail'],
+                       columns=['Predicted: Pass', 'Predicted: Fail'])
+
+# Create the confusion matrix heatmap
+con_LR = ff.create_annotated_heatmap(
+    z=cmdf_LR.values,
+    x=cmdf_LR.columns.tolist(),
+    y=cmdf_LR.index.tolist(),
+)
+
+# Update layout for better readability
+con_LR.update_layout(
+    title='Confusion Matrix',
+    xaxis_title='Predicted Labels',
+    yaxis_title='Actual Labels'
+)
+# accuracy 87%
+accuracy_LR = round(LR.score(x_test, y_test) * 100, 2)
+
+st.text(f"""
+Accuracy of the Random Forest Model: {accuracy_LR}%
+""")
+st.plotly_chart(con_LR)
