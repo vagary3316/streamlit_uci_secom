@@ -127,7 +127,7 @@ Shapes of the Dataframes:
 st.table(shapes_df)
 
 ## XGBoost
-st.subheader(":bulb: XGBoosts")
+st.subheader(":bulb: XGBoost")
 st.text("""
 Data standardization has been made before training model.
 """)
@@ -175,7 +175,7 @@ st.plotly_chart(con_XGBoost, use_container_width=True,
 
 
 # RandomForest
-st.subheader(":bulb: RandomForest")
+st.subheader(":bulb: Random Forest")
 st.text("""
 Data standardization has been made before training model.
 """)
