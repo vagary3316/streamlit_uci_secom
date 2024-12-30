@@ -140,9 +140,9 @@ y_train = y_train.replace(-1, 0)
 y_test = y_test.replace(-1, 0)
 
 #  XGBoost
-model = XGBClassifier(random_state=1)
-model.fit(x_train, y_train)
-y_pred = model.predict(x_test)
+modelXG = XGBClassifier(random_state=1)
+modelXG.fit(x_train, y_train)
+y_pred = modelXG.predict(x_test)
 
 # Confusion Matrix
 cm = confusion_matrix(y_test, y_pred)
@@ -163,4 +163,11 @@ con_XGBoost.update_layout(
     xaxis_title='Predicted Labels',
     yaxis_title='Actual Labels'
 )
+#accuracy 92%
+accuracy_xgboost = round(modelXG.score(x_test,y_test)*100,2)
+st.text(f"""
+Accuracy of the XGBoost Model: {accuracy_xgboost}%
+""")
 st.plotly_chart(con_XGBoost,use_container_width=True)
+
+
