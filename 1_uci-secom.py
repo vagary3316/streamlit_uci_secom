@@ -23,7 +23,7 @@ secom = conn.read()
 
 
 #Streamlit Header and Subheader
-st.header('Data Analysis for the dataset - UCI-SECOM form Kaggle.')
+st.header('Data Analysis for the dataset - UCI-SECOM from Kaggle.')
 st.text("""
 Kaggle - UCI-SECOM Dataset
 (https://www.kaggle.com/datasets/paresh2047/uci-semcom/data)
